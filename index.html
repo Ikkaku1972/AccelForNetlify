@@ -203,19 +203,19 @@ function featureExtraction(){
 function classify(){
 
 if (xmin <= -8) {
-    System.out.println("dance (16.0)");
+    return "dance";
 } else if (xmin > -8) {
     if (xmax <= 1.1) {
-        System.out.println("still (7.0)");
+        return "still";
     } else if (xmax > 1.1) {
         if (ymax <= 3.5) {
-            System.out.println("walk (29.0/11.0)");
+            return "walk";
         } else if (ymax > 3.5) {
-            System.out.println("step (5.0)");
+            return "step";
         }
     }
 }
-
+return "still";
 }
 
 </script>
