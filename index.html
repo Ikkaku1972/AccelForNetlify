@@ -35,39 +35,108 @@
 
     <h2>レポート記述欄</h2>
     <ul>
-      <li>氏名:</li>
-      <li>学部:</li>
-      <li>学年:</li>
-      <li>学籍番号:</li>
-      <li>CNSメールアドレス:</li>
+      <li>氏名:櫻井拓夢</li>
+      <li>学部:環境情報学部</li>
+      <li>学年:2年</li>
+      <li>学籍番号:72243812</li>
+      <li>CNSメールアドレス:t22381ts@sfc.keio.ac.jp</li>
     </ul>
 
-    <h3>収集した行動データについて</h3>
+    <h3>収集した行動データ:停止、歩行、ダンス、階段（上）</h3>
     <ul>
-      <li>選定した理由</li>
-      <li>収集についての詳細</li>
-      <li>工夫した点 / 困難だった点</li>
+      <li>選定した理由:判定が難しい要素（ダンス、階段）を入れたかったため</li>
+      <li>収集についての詳細:ポケットの中に入れて測定した</li>
+      <li>工夫した点 / 困難だった点:ダンスは完全にフリースタイル、ノリを意識して頑張った</li>
     </ul>
 
-    <h3>特徴量について</h3>
+    <h3>特徴量：xmax, xmin, xave, ymax, ymin, yave, zmax, zmin, zave</h3>
     <ul>
-      <li>選定した理由</li>
-      <li>追加した特徴量について詳細</li>
-      <li>工夫した点 / 困難だった点</li>
+      <li>選定した理由:オーソドックスな特徴量を取り敢えず抽出してみた</li>
+      <li>追加した特徴量について詳細:Excelを用いて抽出した</li>
+      <li>工夫した点 / 困難だった点:最近、Excelを触っていなかったので、基本操作すらままならなかった</li>
     </ul>    
 
     <h3>機械学習モデル</h3>
     <ul>
-      <li>採用したアルゴリズムや学習結果の詳細</li>
-      <li>工夫した点</li>
-      <li>工夫した点 / 困難だった点</li>
+      <li>採用したアルゴリズムや学習結果の詳細:</li>
+        <pre>
+          <code>
+          === Run information ===
+
+          Scheme:       weka.classifiers.trees.J48 -C 0.25 -M 2
+          Relation:     MoveDataFixed
+          Instances:    57
+          Attributes:   10
+                        label
+                        xmax
+                        xmin
+                        xave
+                        ymax
+                        ymin
+                        yave
+                        zmax
+                        zmin
+                        zave
+          Test mode:    10-fold cross-validation
+
+          === Classifier model (full training set) ===
+
+          J48 pruned tree
+          ------------------
+
+          xmin <= -8: dance (16.0)
+          xmin > -8
+          |    xmax <= 1.1: still (7.0)
+          |    xmax > 1.1
+          |   |    ymax <= 3.5: walk (29.0/11.0)
+          |   |    ymax > 3.5: step (5.0)
+
+          Number of Leaves  : 	4
+
+          Size of the tree : 	7
+
+
+          Time taken to build model: 0.01 seconds
+
+          === Stratified cross-validation ===
+          === Summary ===
+
+          Correctly Classified Instances          32               56.1404 %
+          Incorrectly Classified Instances        25               43.8596 %
+          Kappa statistic                          0.398 
+          Mean absolute error                      0.2172
+          Root mean squared error                  0.4472
+          Relative absolute error                 59.35   %
+          Root relative squared error            104.4321 %
+          Total Number of Instances               57     
+
+          === Detailed Accuracy By Class ===
+
+                          TP Rate  FP Rate  Precision  Recall   F-Measure  MCC      ROC Area  PRC Area  Class
+                          0.857    0.040    0.750      0.857    0.800      0.772    0.909     0.660     still
+                          0.444    0.333    0.381      0.444    0.410      0.107    0.562     0.336     walk
+                          0.938    0.000    1.000      0.938    0.968      0.957    0.969     0.955     dance
+                          0.188    0.244    0.231      0.188    0.207      -0.060   0.584     0.306     step
+          Weighted Avg.    0.561    0.179    0.558      0.561    0.558      0.380    0.725     0.541     
+
+          === Confusion Matrix ===
+
+            a  b  c  d   <-- classified as
+            6  1  0  0 |  a = still
+            1  8  0  9 |  b = walk
+            0  0 15  1 |  c = dance
+            1 12  0  3 |  d = step
+          </code>
+        </pre>
+      <li>工夫した点:Qiitaの記事を見ながら、ただやるだけではなく、できるだけ仕組みを理解しながら作業を進めた</li>
+      <li>工夫した点 / 困難だった点:CSVファイルを読み込まないバグが発生、解決に時間がかかった</li>
     </ul>
 
     <h3>実機に移植しての性能評価</h3>
     <ul>
-      <li>評価尺度について</li>
-      <li>評価結果</li>
-      <li>工夫した点 / 困難だった点</li>
+      <li>評価尺度について:実際に動作を行ってみて、それが表示されている結果と合致しているかどうかを比較</li>
+      <li>評価結果:そこそこの精度だったが、ダンスを偶に階段（上）だと誤認識しているようだった</li>
+      <li>工夫した点 / 困難だった点:ダンスをしながら結果を確認するのが困難だった</li>
     </ul>
 
   </body>
